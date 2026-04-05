@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>19a38488574c46c5b74ea250443c563e</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4</uuid>
+            <template>PCP Monitoring via Cockpit</template>
+            <name>PCP Monitoring via Cockpit</name>
+            <description>Monitor Linux hosts via Performance Co-Pilot (PCP) and Cockpit integration. Uses HTTP agent items to pull metrics from pmproxy in Prometheus format.</description>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1</uuid>
+                    <name>Memory Used</name>
+                    <type>HTTP_AGENT</type>
+                    <key>pcp_mem_used</key>
+                    <delay>30s</delay>
+                    <history>7d</history>
+                    <trends>365d</trends>
+                    <value_type>UINT64</value_type>
+                    <units>B</units>
+                    <description>Total physical memory used</description>
+                    <url>http://{HOST.CONN}:44323/metrics?names=mem.util.used</url>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>mem_util_used\{[^}]+\}\s+(\d+)
+\1</parameters>
+                        </step>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>1024</parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2</uuid>
+                    <name>System Load (1min)</name>
+                    <type>HTTP_AGENT</type>
+                    <key>pcp_load_1min</key>
+                    <delay>30s</delay>
+                    <history>7d</history>
+                    <trends>365d</trends>
+                    <value_type>FLOAT</value_type>
+                    <description>System load average over 1 minute</description>
+                    <url>http://{HOST.CONN}:44323/metrics?names=kernel.all.load</url>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>kernel_all_load\{[^}]+\}\s+(\d+\.?\d*)
+\1</parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3</uuid>
+                    <name>Network In Bytes</name>
+                    <type>HTTP_AGENT</type>
+                    <key>pcp_network_in_bytes</key>
+                    <delay>30s</delay>
+                    <history>7d</history>
+                    <trends>365d</trends>
+                    <value_type>UINT64</value_type>
+                    <units>Bps</units>
+                    <description>Network bytes received per second</description>
+                    <url>http://{HOST.CONN}:44323/metrics?names=network.interface.in.bytes</url>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>network_interface_in_bytes\{[^}]+\}\s+(\d+\.?\d*)
+\1</parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4</uuid>
+                    <name>CPU Utilization</name>
+                    <type>HTTP_AGENT</type>
+                    <key>pcp_cpu_util</key>
+                    <delay>30s</delay>
+                    <history>7d</history>
+                    <trends>365d</trends>
+                    <value_type>UINT64</value_type>
+                    <units>ms</units>
+                    <description>CPU user time (counter metric)</description>
+                    <url>http://{HOST.CONN}:44323/metrics?names=kernel.all.cpu.user</url>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>kernel_all_cpu_user\{[^}]+\}\s+(\d+\.?\d*)
+\1</parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5</uuid>
+                    <name>Disk Read Bytes</name>
+                    <type>HTTP_AGENT</type>
+                    <key>pcp_disk_read_bytes</key>
+                    <delay>30s</delay>
+                    <history>7d</history>
+                    <trends>365d</trends>
+                    <value_type>UINT64</value_type>
+                    <units>B</units>
+                    <description>Total bytes read from all disk devices</description>
+                    <url>http://{HOST.CONN}:44323/metrics?names=disk.all.read_bytes</url>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>disk_all_read_bytes\{[^}]+\}\s+(\d+\.?\d*)
+\1</parameters>
+                        </step>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>1024</parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6</uuid>
+                    <name>Disk Write Bytes</name>
+                    <type>HTTP_AGENT</type>
+                    <key>pcp_disk_write_bytes</key>
+                    <delay>30s</delay>
+                    <history>7d</history>
+                    <trends>365d</trends>
+                    <value_type>UINT64</value_type>
+                    <units>B</units>
+                    <description>Total bytes written to all disk devices</description>
+                    <url>http://{HOST.CONN}:44323/metrics?names=disk.all.write_bytes</url>
+                    <preprocessing>
+                        <step>
+                            <type>REGEX</type>
+                            <parameters>disk_all_write_bytes\{[^}]+\}\s+(\d+\.?\d*)
+\1</parameters>
+                        </step>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <parameters>1024</parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+            </items>
+        </template>
+    </templates>
+</zabbix_export>
